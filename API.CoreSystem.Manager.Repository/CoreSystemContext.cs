@@ -7,7 +7,10 @@ namespace API.CoreSystem.Manager.Repository
     public class CoreSystemContext : DbContext
     {
         public CoreSystemContext(DbContextOptions<CoreSystemContext> options)
-      : base(options) => ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+      : base(options)
+        {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+        }
 
         public DbSet<Person> Persons { get; set; }
 

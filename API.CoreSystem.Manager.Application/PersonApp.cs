@@ -16,6 +16,12 @@ namespace API.CoreSystem.Manager.Application
             this.mapper = mapper;
         }
 
+        public async Task<IEnumerable<Person>> GetAllAsync()
+        {
+            var data = await personRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<Person>>(data);
+        }
+
         public async Task<Person> GetAsync(int id)
         {
            var data = await personRepository.GetAsync(id);

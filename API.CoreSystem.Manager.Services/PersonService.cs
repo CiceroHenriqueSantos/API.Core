@@ -13,9 +13,14 @@ namespace API.CoreSystem.Manager.Services
             this.personApp = personApp;
         }
 
-        public Task<Person> GetAsync(int id)
+        public async Task<IEnumerable<Person>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await personApp.GetAllAsync();
+        }
+
+        public async Task<Person> GetAsync(int id)
+        {
+           return await personApp.GetAsync(id);
         }
     }
 }

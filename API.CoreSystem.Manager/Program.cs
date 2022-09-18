@@ -1,9 +1,27 @@
+using API.CoreSystem.Manager.Infrastructure;
+using API.CoreSystem.Manager.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var teste = builder.Configuration.GetConnectionString("CoreSystemDB");
+builder.Services.AddDbContext<CoreSystemContext>(options =>
+{
+    options.EnableSensitiveDataLogging(true);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), opt =>
+    {
+
+        opt.MigrationsAssembly("API.CoreSystem.Manager.Repository");
+        opt.MigrationsHistoryTable("Migrations", "Configuration");
+    });
+}, ServiceLifetime.Transient);
+
+builder.Services.AddDIServices();
+builder.Services.AddApiVersioning();
+builder.Services.AddAutoMapper(typeof(AutoMapperProfileConfiguration));
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
