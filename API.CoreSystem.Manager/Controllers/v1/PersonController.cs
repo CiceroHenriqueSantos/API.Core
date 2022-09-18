@@ -1,4 +1,5 @@
 ﻿using API.CoreSystem.Manager.Domain.DTO;
+using API.CoreSystem.Manager.Domain.ViewModel;
 using API.CoreSystem.Manager.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,50 @@ namespace API.CoreSystem.Manager.Controllers.v1
             if (!data.Any())
                 return NoContent();
             return Ok(data);
+        }
+
+        [HttpGet("id:int")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Person))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string[]))]
+        public async Task<ActionResult<Person>> GetById(int id)
+        {
+            var data = await personService.GetAsync(id);
+            if (data != null)
+                return NoContent();
+            return Ok(data);
+        }
+
+        [HttpPost()]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Person))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string[]))]
+        public async Task<ActionResult<Person>> Add(AddPerson dto)
+        {
+            var data = await personService.AddAsync(dto);
+            if (data != null)
+                return NoContent();
+            return Ok(data);
+        }
+
+        [HttpPut()]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Person))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string[]))]
+        public async Task<ActionResult<Person>> Update(UpPerson dto)
+        {
+            await personService.UpdateAsync(dto);
+            return Ok();
+        }
+
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(void))]
+        [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string[]))]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            await personService.DeleteAsync(id);
+            return Ok();
         }
     }
 }
