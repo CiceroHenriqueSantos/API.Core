@@ -30,7 +30,7 @@ namespace API.CoreSystem.Manager.Repository.Mapping
                .IsRequired();
 
             builder.Property(p => p.ZipCode)
-               .HasColumnType("VARCHAR(8)")
+               .HasColumnType("VARCHAR(10)")
                .IsRequired();
 
             builder.Property(p => p.State)

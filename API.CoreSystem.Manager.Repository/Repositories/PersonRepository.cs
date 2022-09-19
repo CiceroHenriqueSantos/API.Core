@@ -15,7 +15,7 @@ namespace API.CoreSystem.Manager.Repository.Repositories
 
         public async Task<Person> GetAsync(int id)
         {
-            var data = await context.Persons.Where(p => p.Id == id)
+            var data = await context.Persons.Where(p => p.Id == id && !p.Deleted)
                                             .FirstOrDefaultAsync();
             return data;
         }

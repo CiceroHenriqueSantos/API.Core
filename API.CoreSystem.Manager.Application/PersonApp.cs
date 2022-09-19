@@ -38,7 +38,11 @@ namespace API.CoreSystem.Manager.Application
         public async Task<IEnumerable<Person>> GetAllAsync()
         {
             var data = await personRepository.GetAllAsync();
-            return mapper.Map<IEnumerable<Person>>(data);
+            if (data == null)
+                return Enumerable.Empty<Person>();
+
+            var result = data.Where(x => !x.Deleted);
+            return mapper.Map<IEnumerable<Person>>(result);
         }
 
         public async Task<Person> GetAsync(int id)

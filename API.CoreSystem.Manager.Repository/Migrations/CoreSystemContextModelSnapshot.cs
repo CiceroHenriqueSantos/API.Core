@@ -78,7 +78,7 @@ namespace API.CoreSystem.Manager.Repository.Migrations
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(8)");
+                        .HasColumnType("VARCHAR(10)");
 
                     b.HasKey("Id")
                         .HasName("PK_Person");

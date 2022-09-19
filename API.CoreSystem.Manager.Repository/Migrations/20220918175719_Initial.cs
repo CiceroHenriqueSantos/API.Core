@@ -22,7 +22,7 @@ namespace API.CoreSystem.Manager.Repository.Migrations
                     Name = table.Column<string>(type: "VARCHAR(150)", nullable: false),
                     LastName = table.Column<string>(type: "VARCHAR(150)", nullable: false),
                     Nationality = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    ZipCode = table.Column<string>(type: "VARCHAR(8)", nullable: false),
+                    ZipCode = table.Column<string>(type: "VARCHAR(10)", nullable: false),
                     State = table.Column<string>(type: "VARCHAR(100)", nullable: false),
                     City = table.Column<string>(type: "VARCHAR(150)", nullable: false),
                     Address = table.Column<string>(type: "VARCHAR(200)", nullable: false),
