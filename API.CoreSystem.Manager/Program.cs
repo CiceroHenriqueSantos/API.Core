@@ -1,5 +1,6 @@
 using API.CoreSystem.Manager.Infrastructure;
 using API.CoreSystem.Manager.Repository;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<CoreSystemContext>(options =>
     });
 }, ServiceLifetime.Transient);
 
+
 builder.Services.AddDIServices();
 builder.Services.AddApiVersioning();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfileConfiguration));
@@ -34,6 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCoreCors();
 //app.UseCoreSystemApiKey();
 app.UseHttpsRedirection();
 
