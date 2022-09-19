@@ -16,6 +16,7 @@ namespace API.CoreSystem.Manager.Domain.Validators
             RuleFor(c => c.Nationality).NotNull();
             RuleFor(c => c.Phone).NotNull();
             RuleFor(c => c.ZipCode).NotNull();
+            RuleFor(c => c.FederalId).NotNull();
         }
     }
 }

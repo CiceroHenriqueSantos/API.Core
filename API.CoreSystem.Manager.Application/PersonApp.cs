@@ -1,4 +1,5 @@
 ﻿using API.CoreSystem.Manager.Application.Contracts;
+using API.CoreSystem.Manager.Domain.API;
 using API.CoreSystem.Manager.Domain.DTO;
 using API.CoreSystem.Manager.Domain.ViewModel;
 using API.CoreSystem.Manager.Repository.Contracts;
@@ -35,19 +36,26 @@ namespace API.CoreSystem.Manager.Application
             }
         }
 
-        public async Task<IEnumerable<Person>> GetAllAsync()
+        public async Task<PagedResult<Person>> GetAllPersons(int page, int pageSize)
         {
-            var data = await personRepository.GetAllAsync();
-            if (data == null)
-                return Enumerable.Empty<Person>();
+            var data = await personRepository.GetAllPersons(page, pageSize);
 
-            var result = data.Where(x => !x.Deleted);
-            return mapper.Map<IEnumerable<Person>>(result);
+            if (data.Data?.Count == 0)
+                return data.As(new List<Person>());
+
+            var purchasedata = mapper.Map<List<Person>>(data.Data);
+            return data.As(purchasedata);
         }
 
         public async Task<Person> GetAsync(int id)
         {
             var data = await personRepository.GetAsync(id);
+            return mapper.Map<Person>(data);
+        }
+
+        public async Task<Person> GetByFederalIdAsync(string federalId)
+        {
+            var data = await personRepository.GetByFederalIdAsync(federalId);
             return mapper.Map<Person>(data);
         }
 

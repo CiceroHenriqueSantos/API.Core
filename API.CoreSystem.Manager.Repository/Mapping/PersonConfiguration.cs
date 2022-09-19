@@ -53,6 +53,10 @@ namespace API.CoreSystem.Manager.Repository.Mapping
               .HasColumnType("VARCHAR(100)")
               .IsRequired();
 
+            builder.Property(p => p.FederalId)
+              .HasColumnType("VARCHAR(50)")
+              .IsRequired();
+
             builder.Property(p => p.CreateDate)
               .HasDefaultValueSql("GETUTCDATE()")
               .IsRequired();

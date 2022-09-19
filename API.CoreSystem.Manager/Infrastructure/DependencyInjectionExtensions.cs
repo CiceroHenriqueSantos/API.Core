@@ -23,6 +23,7 @@ namespace API.CoreSystem.Manager.Infrastructure
         private static void AddServices(this IServiceCollection services)
         {
             services.AddTransient<IPersonService, PersonService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         private static void AddApplications(this IServiceCollection services)

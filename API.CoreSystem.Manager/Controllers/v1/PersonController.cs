@@ -1,4 +1,5 @@
-﻿using API.CoreSystem.Manager.Domain.DTO;
+﻿using API.CoreSystem.Manager.Domain.API;
+using API.CoreSystem.Manager.Domain.DTO;
 using API.CoreSystem.Manager.Domain.ViewModel;
 using API.CoreSystem.Manager.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +12,22 @@ namespace API.CoreSystem.Manager.Controllers.v1
     public class PersonController : ControllerBase
     {
         private readonly IPersonService personService;
+        private readonly INotificationService notificationService;
 
-        public PersonController(IPersonService personService)
+        public PersonController(IPersonService personService, INotificationService notificationService)
         {
             this.personService = personService;
+            this.notificationService = notificationService;
         }
 
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Person>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<Person>))]
         [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(void))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string[]))]
-        public async Task<ActionResult<IEnumerable<Person>>> GetAll()
+        public async Task<ActionResult<PagedResult<Person>>> GetAll(int page, int pageSize)
         {
-            var data = await personService.GetAllAsync();
-            if (!data.Any())
+            var data = await personService.GetAllPersons(page, pageSize);
+            if (data == null)
                 return NoContent();
             return Ok(data);
         }
@@ -48,8 +51,8 @@ namespace API.CoreSystem.Manager.Controllers.v1
         public async Task<ActionResult<Person>> Add(AddPerson dto)
         {
             var data = await personService.AddAsync(dto);
-            if (data != null)
-                return NoContent();
+            if (notificationService.HasErrors)
+                return BadRequest(notificationService.Notification.Errors);
             return Ok(data);
         }
 
